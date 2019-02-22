@@ -10,7 +10,7 @@ public static class Network
     static string IpAddress = "127.0.0.1";
     static int Port = 3000;
 
-    static UdpClient Client = new UdpClient(3001);
+    static UdpClient Client = new UdpClient(0);
     static IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
     static Network()
@@ -24,8 +24,9 @@ public static class Network
     {
         while (true)
         {
-            Byte[] receiveBytes = Client.Receive(ref RemoteIpEndPoint);
+            byte[] receiveBytes = Client.Receive(ref RemoteIpEndPoint);
             Debug.Log("Packet received");
+            Unpacker.Unpack(receiveBytes);
         }
     }
 
@@ -37,17 +38,24 @@ public static class Network
 
     public static void Login(string name)
     {
-        Debug.Log(name);
         byte[] PacketData = new byte[13];
         PacketData[0] = 1;
         Encoding.UTF8.GetBytes(name, 0, name.Length, PacketData, 1);
         SendPacket(PacketData);
     }
 
+    public static void Join()
+    {
+        byte[] PacketData = new byte[2];
+        PacketData[0] = 2;
+        PacketData[1] = (byte)State.CurrentPlayerId;
+        SendPacket(PacketData);
+    }
+
     public static void UpdateMovement()
     {
         byte[] PacketData = new byte[16];
-        PacketData[0] = 2;
+        PacketData[0] = 3;
         PacketData[1] = State.CurrentPlayer.Id;
         Buffer.BlockCopy(BitConverter.GetBytes(State.CurrentPlayer.Movement.CordX), 0, PacketData, 2, 4);
         Buffer.BlockCopy(BitConverter.GetBytes(State.CurrentPlayer.Movement.CordZ), 0, PacketData, 6, 4);
