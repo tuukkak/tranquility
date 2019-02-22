@@ -10,17 +10,9 @@ public class GameInitializer : MonoBehaviour
 
     void Start()
     {
-        InitializeHeroes();
         InitializeSpells();
         InitializePlayers();
         StartInputHandler();
-    }
-
-    void InitializeHeroes()
-    {
-        State.Heroes = new List<Hero>() {
-            new Hero(id: 1, name: "Mage", speed: 5f, baseHealth: 2000)
-        };
     }
 
     void InitializeSpells()
@@ -33,15 +25,6 @@ public class GameInitializer : MonoBehaviour
 
     void InitializePlayers()
     {
-        State.Players = new List<Player>() {
-            new Player(id: 1, name: "Player 1", team: 1, heroId: 1),
-            new Player(id: 2, name: "Player 2", team: 1, heroId: 1),
-            new Player(id: 3, name: "Player 3", team: 2, heroId: 1),
-            new Player(id: 4, name: "Player 4", team: 2, heroId: 1)
-        };
-
-        State.CurrentPlayer = State.Players.Find(p => p.Id == 1);
-
         foreach (Player Player in State.Players)
         {
             GameObject PlayerObject = Instantiate(PlayerPrefab);
