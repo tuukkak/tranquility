@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Login : MonoBehaviour
 {
     public InputField NameField;
     public Button LoginButton;
 
-    // Start is called before the first frame update
     void Start()
     {
         LoginButton.onClick.AddListener(OnLoginClick);
@@ -14,8 +14,14 @@ public class Login : MonoBehaviour
 
     void OnLoginClick()
     {
-
         Network.Login(NameField.text);
-        //SceneManager.LoadScene("GameScene");
+    }
+
+    void Update()
+    {
+        if (!string.IsNullOrEmpty(Game.LoadScene)) {
+            SceneManager.LoadScene(Game.LoadScene);
+            Game.LoadScene = "";
+        }
     }
 }
