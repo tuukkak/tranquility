@@ -25,7 +25,6 @@ public static class Unpacker
                 break;
 
             case (byte)Type.Movement:
-                Debug.Log("Terve");
                 Player player = State.Players.Find(p => p.Id == packetData[1]);
                 player.Movement.CordX = BitConverter.ToSingle(packetData, 2);
                 player.Movement.CordZ = BitConverter.ToSingle(packetData, 6);
