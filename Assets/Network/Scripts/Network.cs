@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -13,6 +14,8 @@ public static class Network
     static UdpClient Client = new UdpClient(0);
     static IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
+    public static ConcurrentQueue<byte[]> PacketQueue = new ConcurrentQueue<byte[]>();
+
     static Network()
     {
         Thread SocketThread = new Thread(ListenUdp);
@@ -25,8 +28,8 @@ public static class Network
         while (true)
         {
             byte[] receiveBytes = Client.Receive(ref RemoteIpEndPoint);
+            PacketQueue.Enqueue(receiveBytes);
             Debug.Log("Packet received");
-            Unpacker.Unpack(receiveBytes);
         }
     }
 

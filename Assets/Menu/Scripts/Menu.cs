@@ -16,13 +16,4 @@ public class Menu : MonoBehaviour
         Network.Join();
         JoinButton.GetComponentsInChildren<Text>()[0].text = "Looking for game...";
     }
-
-    void Update()
-    {
-        if (!string.IsNullOrEmpty(Game.LoadScene))
-        {
-            SceneManager.LoadScene(Game.LoadScene);
-            Game.LoadScene = "";
-        }
-    }
 }

@@ -16,12 +16,4 @@ public class Login : MonoBehaviour
     {
         Network.Login(NameField.text);
     }
-
-    void Update()
-    {
-        if (!string.IsNullOrEmpty(Game.LoadScene)) {
-            SceneManager.LoadScene(Game.LoadScene);
-            Game.LoadScene = "";
-        }
-    }
 }
