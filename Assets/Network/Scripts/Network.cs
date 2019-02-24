@@ -29,13 +29,11 @@ public static class Network
         {
             byte[] receiveBytes = Client.Receive(ref RemoteIpEndPoint);
             PacketQueue.Enqueue(receiveBytes);
-            Debug.Log("Packet received");
         }
     }
 
     static void SendPacket(byte[] packetData)
     {
-        Debug.Log("sending");
         Client.Send(packetData, packetData.Length, IpAddress, Port);
     }
 
