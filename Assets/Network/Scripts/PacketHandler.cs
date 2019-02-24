@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,7 +29,11 @@ public class PacketHandler : MonoBehaviour
                 int index = 2;
                 for (int i = 0; i < (int)packetData[1]; i++)
                 {
-                    State.Players.Add(new Player(id: packetData[index++], name: "Player 1", team: packetData[index++], heroId: 1));
+                    byte id = packetData[index++];
+                    string name = Encoding.UTF8.GetString(packetData, index, 12).TrimEnd('\0');
+                    index += 12;
+                    byte team = packetData[index++];
+                    State.Players.Add(new Player(id: id, name: name, team: team, heroId: 1));
                 }
                 State.CurrentPlayer = State.Players.Find(p => p.Id == State.CurrentPlayerId);
                 SceneManager.LoadScene("GameScene");
